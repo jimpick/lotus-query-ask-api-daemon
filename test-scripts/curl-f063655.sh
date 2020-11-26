@@ -5,5 +5,5 @@ echo $DATA | jq .
 
 curl -X POST -H "Content-Type: application/json" \
        	--data "$DATA" \
-       	'http://127.0.0.1:1238/rpc/v0' 
+       	'http://127.0.0.1:9301/rpc/v0' 
 
