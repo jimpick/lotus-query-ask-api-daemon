@@ -29,8 +29,6 @@ require (
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1
 )
 
-replace github.com/jimpick/lotus-query-ask-api-daemon => ../..
-
 replace github.com/filecoin-project/lotus => ../../extern/lotus-modified-wasm
 
 replace github.com/filecoin-project/go-fil-markets => ../../extern/go-fil-markets-modified-wasm
@@ -39,7 +37,7 @@ replace github.com/libp2p/go-libp2p => github.com/jimpick/go-libp2p v0.3.2-0.202
 
 replace github.com/libp2p/go-reuseport-transport => github.com/jimpick/go-reuseport-transport v0.0.5-0.20201019202422-85fd62f8a44c
 
-replace github.com/filecoin-project/go-jsonrpc => ../../../../browser-markets/go-jsonrpc-wasm
+replace github.com/filecoin-project/go-jsonrpc => github.com/jimpick/go-jsonrpc v0.0.0-20201109011442-669bac3b0e93
 
 replace github.com/libp2p/go-libp2p-daemon => ../../../../browser-markets/go-libp2p-daemon-ws
 

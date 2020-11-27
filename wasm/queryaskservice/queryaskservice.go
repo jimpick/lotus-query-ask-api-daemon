@@ -80,6 +80,7 @@ func Start(p2pclientNode *p2pclient.Client) {
 	}
 
 	cbOpt := jsonrpc.WithConnectCallback(func(environment js.Value) {
+		fmt.Printf("Jim queryaskservice connectCallBack\n")
 		requestsForLotusHandler := environment.Get("requestsForLotusHandler")
 
 		// closer, err := jsonrpc.NewJSMergeClient(context.Background(), requestsForLotusHandler, "Filecoin", []interface{}{&nodeAPI})

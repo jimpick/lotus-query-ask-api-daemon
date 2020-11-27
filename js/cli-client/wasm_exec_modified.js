@@ -2,9 +2,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-global.WebSocket = require('websocket').w3cwebsocket;
-
-(() => {
+module.exports = wasmFile => {
 	// Map multiple JavaScript environments to a single common API,
 	// preferring web standards over Node.js API.
 	//
@@ -557,34 +555,22 @@ global.WebSocket = require('websocket').w3cwebsocket;
 		}
 	}
 
-	if (
-		global.require &&
-		global.require.main === module &&
-		global.process &&
-		global.process.versions &&
-		!global.process.versions.electron
-	) {
-		if (process.argv.length < 3) {
-			console.error("usage: go_js_wasm_exec [wasm binary] [arguments]");
-			process.exit(1);
-		}
-
-		const go = new Go();
-		go.argv = process.argv.slice(2);
-		go.env = Object.assign({ TMPDIR: require("os").tmpdir() }, process.env);
-		go.exit = process.exit;
-		WebAssembly.instantiate(fs.readFileSync(process.argv[2]), go.importObject).then((result) => {
-			process.on("exit", (code) => { // Node.js exits if no event handler is pending
-				if (code === 0 && !go.exited) {
-					// deadlock, make Go print error and stack traces
-					go._pendingEvent = { id: 0 };
-					go._resume();
-				}
-			});
-			return go.run(result.instance);
-		}).catch((err) => {
-			console.error(err);
-			process.exit(1);
-		});
-	}
-})();
+  const go = new Go();
+  // go.argv = process.argv.slice(2);
+  go.argv = [ wasmFile ];
+  go.env = Object.assign({ TMPDIR: require("os").tmpdir() }, process.env);
+  go.exit = process.exit;
+  return WebAssembly.instantiate(fs.readFileSync(wasmFile), go.importObject).then((result) => {
+    process.on("exit", (code) => { // Node.js exits if no event handler is pending
+      if (code === 0 && !go.exited) {
+        // deadlock, make Go print error and stack traces
+        go._pendingEvent = { id: 0 };
+        go._resume();
+      }
+    });
+    return go.run(result.instance);
+  }).catch((err) => {
+    console.error(err);
+    process.exit(1);
+  });
+}
