@@ -27,31 +27,24 @@ import (
 	"github.com/filecoin-project/lotus/node/repo"
 	"github.com/jimpick/lotus-query-ask-api-daemon/api"
 	"github.com/jimpick/lotus-query-ask-api-daemon/node/impl"
+	. "github.com/jimpick/lotus-utils/fxnodesetup"
 	"go.uber.org/fx"
 	"golang.org/x/xerrors"
 )
 
-// From node/builder.go
-
-// special is a type used to give keys to modules which
-//  can't really be identified by the returned type
-type special struct{ id int }
-
-type invoke int
-
 //nolint:golint
 var (
-	DefaultTransportsKey = special{0}  // Libp2p option
-	DiscoveryHandlerKey  = special{2}  // Private type
-	AddrsFactoryKey      = special{3}  // Libp2p option
-	SmuxTransportKey     = special{4}  // Libp2p option
-	RelayKey             = special{5}  // Libp2p option
-	SecurityKey          = special{6}  // Libp2p option
-	BaseRoutingKey       = special{7}  // fx groups + multiret
-	NatPortMapKey        = special{8}  // Libp2p option
-	ConnectionManagerKey = special{9}  // Libp2p option
-	AutoNATSvcKey        = special{10} // Libp2p option
-	BandwidthReporterKey = special{11} // Libp2p option
+	DefaultTransportsKey = Special{0}  // Libp2p option
+	DiscoveryHandlerKey  = Special{2}  // Private type
+	AddrsFactoryKey      = Special{3}  // Libp2p option
+	SmuxTransportKey     = Special{4}  // Libp2p option
+	RelayKey             = Special{5}  // Libp2p option
+	SecurityKey          = Special{6}  // Libp2p option
+	BaseRoutingKey       = Special{7}  // fx groups + multiret
+	NatPortMapKey        = Special{8}  // Libp2p option
+	ConnectionManagerKey = Special{9}  // Libp2p option
+	AutoNATSvcKey        = Special{10} // Libp2p option
+	BandwidthReporterKey = Special{11} // Libp2p option
 )
 
 // Invokes are called in the order they are defined.
@@ -59,7 +52,7 @@ var (
 const (
 	// InitJournal at position 0 initializes the journal global var as soon as
 	// the system starts, so that it's available for all other components.
-	InitJournalKey = invoke(iota)
+	InitJournalKey = Invoke(iota)
 
 	// libp2p
 
@@ -72,28 +65,9 @@ const (
 	_nInvokes // keep this last
 )
 
-type Settings struct {
-	// modules is a map of constructors for DI
-	//
-	// In most cases the index will be a reflect. Type of element returned by
-	// the constructor, but for some 'constructors' it's hard to specify what's
-	// the return type should be (or the constructor returns fx group)
-	modules map[interface{}]fx.Option
-
-	// invokes are separate from modules as they can't be referenced by return
-	// type, and must be applied in correct order
-	invokes []fx.Option
-
-	nodeType repo.RepoType
-
-	Online bool // Online option applied
-	Config bool // Config option applied
-
-}
-
 func Repo(r repo.Repo) Option {
 	return func(settings *Settings) error {
-		lr, err := r.Lock(settings.nodeType)
+		lr, err := r.Lock(settings.NodeType)
 		if err != nil {
 			return err
 		}
@@ -164,12 +138,12 @@ func Online() Option {
 func QueryAskAPI(out *api.QueryAskAPI) Option {
 	return Options(
 		func(s *Settings) error {
-			s.nodeType = repo.Worker
+			s.NodeType = repo.Worker
 			return nil
 		},
 		func(s *Settings) error {
 			resAPI := &impl.QueryAskAPI{}
-			s.invokes[ExtractApiKey] = fx.Populate(resAPI)
+			s.Invokes[ExtractApiKey] = fx.Populate(resAPI)
 			*out = resAPI
 			return nil
 		},
@@ -189,8 +163,8 @@ type StopFunc func(context.Context) error
 // New builds and starts new Filecoin node
 func New(ctx context.Context, opts ...Option) (StopFunc, error) {
 	settings := Settings{
-		modules: map[interface{}]fx.Option{},
-		invokes: make([]fx.Option, _nInvokes),
+		Modules: map[interface{}]fx.Option{},
+		Invokes: make([]fx.Option, _nInvokes),
 	}
 
 	// apply module options in the right order
@@ -199,21 +173,21 @@ func New(ctx context.Context, opts ...Option) (StopFunc, error) {
 	}
 
 	// gather constructors for fx.Options
-	ctors := make([]fx.Option, 0, len(settings.modules))
-	for _, opt := range settings.modules {
+	ctors := make([]fx.Option, 0, len(settings.Modules))
+	for _, opt := range settings.Modules {
 		ctors = append(ctors, opt)
 	}
 
 	// fill holes in invokes for use in fx.Options
-	for i, opt := range settings.invokes {
+	for i, opt := range settings.Invokes {
 		if opt == nil {
-			settings.invokes[i] = fx.Options()
+			settings.Invokes[i] = fx.Options()
 		}
 	}
 
 	app := fx.New(
 		fx.Options(ctors...),
-		fx.Options(settings.invokes...),
+		fx.Options(settings.Invokes...),
 
 		fx.NopLogger,
 	)

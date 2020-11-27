@@ -7,6 +7,7 @@ require (
 	github.com/filecoin-project/go-fil-markets v1.0.0
 	github.com/filecoin-project/go-jsonrpc v0.1.2
 	github.com/filecoin-project/lotus v0.0.0-00010101000000-000000000000
+	github.com/jimpick/lotus-utils v0.0.2
 	github.com/libp2p/go-libp2p-core v0.6.1
 	github.com/libp2p/go-libp2p-kad-dht v0.8.3
 	github.com/libp2p/go-libp2p-peerstore v0.2.6

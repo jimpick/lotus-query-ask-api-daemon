@@ -14,6 +14,7 @@ import (
 	"github.com/filecoin-project/lotus/node/repo"
 	"github.com/jimpick/lotus-query-ask-api-daemon/api"
 	"github.com/jimpick/lotus-query-ask-api-daemon/node"
+	"github.com/jimpick/lotus-utils/fxnodesetup"
 )
 
 const flagQueryAskRepo = "query-ask-repo"
@@ -47,8 +48,8 @@ var daemonCmd = &cli.Command{
 			node.QueryAskAPI(&queryAskAPI),
 			node.Repo(r),
 			node.Online(),
-			node.Override(new(moduleapi.ChainModuleAPI), nodeAPI),
-			node.Override(new(moduleapi.StateModuleAPI), nodeAPI),
+			fxnodesetup.Override(new(moduleapi.ChainModuleAPI), nodeAPI),
+			fxnodesetup.Override(new(moduleapi.StateModuleAPI), nodeAPI),
 		)
 		if err != nil {
 			return xerrors.Errorf("initializing node: %w", err)
