@@ -8,10 +8,14 @@ require (
 	github.com/filecoin-project/go-jsonrpc v0.1.2
 	github.com/filecoin-project/lotus v0.0.0-00010101000000-000000000000
 	github.com/jimpick/lotus-utils v0.0.2
+	github.com/libp2p/go-libp2p v0.11.0
 	github.com/libp2p/go-libp2p-core v0.6.1
+	github.com/libp2p/go-libp2p-daemon v0.2.2
 	github.com/libp2p/go-libp2p-kad-dht v0.8.3
 	github.com/libp2p/go-libp2p-peerstore v0.2.6
 	github.com/libp2p/go-libp2p-record v0.1.3
+	github.com/libp2p/go-ws-transport v0.3.1
+	github.com/multiformats/go-multiaddr v0.3.1
 	github.com/urfave/cli/v2 v2.3.0
 	go.uber.org/fx v1.13.1
 	golang.org/x/xerrors v0.0.0-20200804184101-5ec99f83aff1
