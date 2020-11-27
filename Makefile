@@ -15,5 +15,7 @@ list:
 checkout:
 	mkdir -p extern
 	cd extern; git clone -b jim-query-ask-api-daemon-modified git@github.com:jimpick/lotus.git lotus-modified
+	cd extern; git clone -b jim-query-ask-api-daemon-modified-wasm git@github.com:jimpick/lotus.git lotus-modified-wasm
 	cd extern; git clone -b jim-query-ask-api-daemon-modified git@github.com:jimpick/go-fil-markets.git go-fil-markets-modified
+	cd extern; git clone -b jim-query-ask-api-daemon-modified-wasm git@github.com:jimpick/go-fil-markets.git go-fil-markets-modified-wasm
 	cd extern; git clone -b fil-blst-v0.1.1 https://github.com/filecoin-project/fil-blst.git
