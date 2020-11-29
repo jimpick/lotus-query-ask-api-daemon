@@ -4,7 +4,7 @@
   "description": "",
   "main": "wasm_exec.js",
   "scripts": {
-    "test": "node wasm_exec.js ../../wasm/bundlemain/main.wasm 12D3KooWEUS7VnaRrHF24GTWVGYtcEsmr3jsnNLcsEwPU7rDgjf5 f063655"
+    "test-node": "node index-node.js"
   },
   "keywords": [],
   "author": "Jim Pick (@jimpick)",
