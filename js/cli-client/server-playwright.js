@@ -31,12 +31,17 @@ app.listen(3000, function () {
 })
 
 async function run () {
+  // const browser = await chromium.launch({ headless: false })
   const browser = await chromium.launch()
   const page = await browser.newPage()
   page.on('console', msg => {
-    for (let i = 0; i < msg.args().length; ++i)
-      console.log(`${i}: ${msg.args()[i]}`)
+    for (let i = 0; i < msg.args().length; ++i) {
+      const line = `${msg.args()[i]}`
+      console.log(`${i}: ${line}`)
+      if (line.match(/Query Ask WSS:/)) {
+        process.exit(0)
+      }
+    }
   })
   await page.goto('http://localhost:3000/')
-  await browser.close()
 }
