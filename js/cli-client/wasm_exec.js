@@ -2,8 +2,6 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
-global.WebSocket = require('websocket').w3cwebsocket;
-
 (() => {
 	// Map multiple JavaScript environments to a single common API,
 	// preferring web standards over Node.js API.
