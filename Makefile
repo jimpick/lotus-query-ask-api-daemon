@@ -1,10 +1,13 @@
-GOFLAGS+=-tags=clientQueryAskAPI
+export GOFLAGS=-tags=clientqueryask
 
 lotus-query-ask-api-daemon:
 	go build .
 
 clean:
 	rm -f rm -f lotus-query-ask-api-daemon
+
+env:
+	go env
 
 why-ffi:
 	go mod why github.com/filecoin-project/filecoin-ffi
