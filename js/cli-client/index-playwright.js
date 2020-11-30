@@ -6,7 +6,16 @@ const { WasmProvider } = require('./wasm-provider')
 
 async function run () {
   console.log('Starting WASM...')
-  // wasmExec('../../wasm/bundlemain/main.wasm') // async
+  const go = new Go()
+  const wasmResult = await WebAssembly.instantiateStreaming(
+    fetch('main.wasm'),
+    go.importObject
+  )
+  go.run(wasmResult.instance)
+  await delay(1000)
+  status.innerText = 'All systems good! JS and Go loaded.'
+  console.log('All systems go!')
+
   console.log('Sleeping...')
   await delay(3000)
 
