@@ -4,6 +4,7 @@
   "description": "",
   "main": "wasm_exec.js",
   "scripts": {
+    "test": "node server-playwright.js",
     "test-node": "node index-node.js"
   },
   "keywords": [],
