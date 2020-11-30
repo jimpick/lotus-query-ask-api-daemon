@@ -5,6 +5,7 @@ const path = require('path')
 const express = require('express')
 const webpack = require('webpack')
 const webpackDevMiddleware = require('webpack-dev-middleware')
+const { chromium } = require('playwright')
 
 const app = express()
 const config = require('./webpack.config.js')
@@ -26,4 +27,16 @@ app.use(
 // Serve the files on port 3000.
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!\n')
+  run()
 })
+
+async function run () {
+  const browser = await chromium.launch()
+  const page = await browser.newPage()
+  page.on('console', msg => {
+    for (let i = 0; i < msg.args().length; ++i)
+      console.log(`${i}: ${msg.args()[i]}`)
+  })
+  await page.goto('http://localhost:3000/')
+  await browser.close()
+}
