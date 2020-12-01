@@ -1,2 +1,4 @@
 extern
 lotus-query-ask-api-daemon
+coverage.txt
+coverage.html
