@@ -19,12 +19,12 @@ async function run () {
     console.error('Error', e)
   }
   console.log('Jim4')
-  await delay(1000)
+  await delay(500) // FIXME: Get rid of this
   status.innerText = 'All systems good! JS and Go loaded.'
   console.log('All systems go!')
 
-  console.log('Sleeping...')
-  await delay(3000)
+  // console.log('Sleeping...')
+  // await delay(3000)
 
   const wsUrl = 'wss://lotus.jimpick.com/spacerace_api/0/node/rpc/v0'
   const browserProvider = new BrowserProvider(wsUrl)

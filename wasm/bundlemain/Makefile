@@ -1,8 +1,12 @@
+export GOFLAGS=-tags=clientqueryask
+export GOOS=js
+export GOARCH=wasm
+
 main.wasm:
-	GOOS=js GOARCH=wasm go build -o main.wasm
+	go build -o main.wasm
 
 nodemon:
-	GOOS=js GOARCH=wasm nodemon --ext go \
+	nodemon --ext go \
 		--watch . --watch ../.. \
 		--watch ../../extern/lotus-modified-wasm \
 		--watch ../../extern/go-fil-markets-modified-wasm \
