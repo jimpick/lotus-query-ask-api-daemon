@@ -4,9 +4,9 @@ import (
 	"fmt"
 
 	"github.com/jimpick/lotus-query-ask-api-daemon/wasm/queryaskservice"
-	peerstore "github.com/libp2p/go-libp2p-core/peer"
+	"github.com/libp2p/go-libp2p-core/peer"
 	"github.com/libp2p/go-libp2p-daemon/p2pclient"
-	multiaddr "github.com/multiformats/go-multiaddr"
+	"github.com/multiformats/go-multiaddr"
 )
 
 func main() {
@@ -17,12 +17,12 @@ func main() {
 	p2pclientNode, err := p2pclient.NewClient(controlMaddr, listenMaddr)
 	fmt.Printf("Jim p2pclientNode %v\n", p2pclientNode)
 	nodeID, nodeAddrs, err := p2pclientNode.Identify()
-	peerInfo := peerstore.AddrInfo{
+	peerInfo := peer.AddrInfo{
 		ID:    nodeID,
 		Addrs: nodeAddrs,
 	}
 	fmt.Printf("Jim peerInfo %v\n", peerInfo)
-	addrs, err := peerstore.AddrInfoToP2pAddrs(&peerInfo)
+	addrs, err := peer.AddrInfoToP2pAddrs(&peerInfo)
 	if err != nil {
 		panic(err)
 	}
