@@ -26,7 +26,7 @@ async function run () {
   // console.log('Sleeping...')
   // await delay(3000)
 
-  const wsUrl = 'wss://lotus.jimpick.com/spacerace_api/0/node/rpc/v0'
+  const wsUrl = 'wss://lotus.jimpick.com/spacerace_api/1/node/rpc/v0'
   const browserProvider = new BrowserProvider(wsUrl)
   await browserProvider.connect()
   const requestsForLotusHandler = async (req, responseHandler) => {
@@ -54,9 +54,15 @@ async function run () {
   })
 
   console.log('Query Ask WSS')
+  /*
   const result = await queryAskClient.clientQueryAsk(
     '12D3KooWEUS7VnaRrHF24GTWVGYtcEsmr3jsnNLcsEwPU7rDgjf5',
     'f063655'
+  )
+  */
+  const result = await queryAskClient.clientQueryAsk(
+    '12D3KooWHeqPF4yLunXpxaZyf8z4WbgK12YcYYeYLB5HEeQGaxAk',
+    'f0105208'
   )
   console.log(`Query Ask WSS: ${JSON.stringify(result)}`)
 }
